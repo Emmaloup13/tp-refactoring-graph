@@ -34,14 +34,6 @@ public class Graph {
 		return vertices;
 	}
 
-	/**
-	 * Récupération de la liste arcs
-	 * 
-	 * @return
-	 */
-	public void setVertices(List<Vertex> vertices) {
-		this.vertices = vertices;
-	}
 
 	/**
 	 * Recherche d'un sommet par identifiant
@@ -138,13 +130,33 @@ public class Graph {
 		return result;
 	}
 
+
+
 	/**
-	 * Définition de la liste des arcs
-	 * 
-	 * @param edges
+	 * Fabrique createVertex (Question2)
+	 *
+	 * @param coordinate
+	 * @param id
 	 */
-	public void setEdges(List<Edge> edges) {
-		this.edges = edges;
+	public Vertex createVertex(Coordinate coordinate,String id ){
+		Vertex v = new Vertex();
+		v.setId(id);
+		v.setCoordinate(coordinate);
+		this.getVertices().add(v);
+		return v;
 	}
 
+	/**
+	 * Fabrique createEdge (Question2)
+	 *
+	 * @param source
+	 * @param target
+	 * @param id
+	 */
+	public Edge createEdge(Vertex source, Vertex target,String id ){
+		Edge e = new Edge(source, target);
+		e.setId(id);
+		this.getEdges().add(e);
+		return e;
+	}
 }
