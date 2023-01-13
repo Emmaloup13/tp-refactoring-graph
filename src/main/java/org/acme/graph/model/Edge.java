@@ -1,5 +1,6 @@
 package org.acme.graph.model;
 
+import com.fasterxml.jackson.annotation.Nulls;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
@@ -33,9 +34,15 @@ public class Edge {
 	 */
 	private Vertex target;
 
+	private LineString geometry;
+
 	Edge(Vertex source, Vertex target){
 		this.source = source;
 		this.target = target;
+	}
+
+	public void setGeometry(LineString geometry) {
+		this.geometry = geometry;
 	}
 
 	public String getId() {
@@ -82,11 +89,17 @@ public class Edge {
 	 * @return
 	 */
 	public double getCost() {
+		if(geometry != null){
+			return geometry.getLength();
+		}
 		return source.getCoordinate().distance(target.getCoordinate());
 	}
 
 	@JsonSerialize(using = GeometrySerializer.class)
 	public LineString getGeometry() {
+		if(geometry != null){
+			return geometry;
+		}
 		GeometryFactory gf = new GeometryFactory();
 		return gf.createLineString(new Coordinate[] {
 			source.getCoordinate(),
