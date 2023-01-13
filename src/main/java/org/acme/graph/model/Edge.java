@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.List;
+
 /**
  *
  * Un arc matérialisé par un sommet source et un sommet cible
@@ -36,9 +38,12 @@ public class Edge {
 
 	private LineString geometry;
 
+
 	Edge(Vertex source, Vertex target){
 		this.source = source;
 		this.target = target;
+		this.source.getOutEdges().add(this);
+		this.target.getInEdges().add(this);
 	}
 
 	public void setGeometry(LineString geometry) {
@@ -64,9 +69,6 @@ public class Edge {
 		return source;
 	}
 
-	public void setSource(Vertex source) {
-		this.source = source;
-	}
 
 	/**
 	 * Cible avec rendu JSON sous forme d'identifiant
@@ -79,9 +81,6 @@ public class Edge {
 		return target;
 	}
 
-	public void setTarget(Vertex target) {
-		this.target = target;
-	}
 
 	/**
 	 * dijkstra - coût de parcours de l'arc (distance géométrique)
